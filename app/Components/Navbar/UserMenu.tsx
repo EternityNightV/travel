@@ -5,13 +5,14 @@ import { useCallback, useState } from 'react'
 import MenuItem from './MenuItem';
 import useRegisterModal from '@/app/Hooks/useRegisterModal';
 import useLoginModal from '@/app/Hooks/useLoginModal';
-import { User } from '@prisma/client';
+
 import { signOut } from 'next-auth/react';
+import { SafeUser } from '@/app/types';
 
 
 interface useMenuProps {
 
-    currentUser?: User | null
+    currentUser?: SafeUser | null
 }
 
 const UserMenu : React.FC<useMenuProps> = ({
@@ -71,14 +72,15 @@ const UserMenu : React.FC<useMenuProps> = ({
 
             >
                 <AiOutlineMenu/>
-            </div>
-            <div
+                <div
             className='
             hidden
             md:block
             '>
-                <Avatar/>
+                <Avatar src={currentUser?.image}/>
             </div>
+            </div>
+           
         </div>
       {isOpen &&(
         <div
