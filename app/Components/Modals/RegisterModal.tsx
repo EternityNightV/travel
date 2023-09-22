@@ -18,8 +18,11 @@ import { toast } from 'react-hot-toast/headless';
 import { error } from 'console';
 import Button from '../Navbar/Button';
 import { signIn } from 'next-auth/react'
+import LoginModal from './LoginModal';
+import useLoginModal from '@/app/Hooks/useLoginModal';
 const RegisterModal = () => {
   const registerModal = useRegisterModal()
+  const loginModal = useLoginModal();
   const [isLoading,setIsLoading] = useState(false);
   const {
     register,
@@ -47,6 +50,11 @@ const RegisterModal = () => {
       setIsLoading(false)
     })
   }
+  const onToggle = useCallback(() => {
+    registerModal.onClose();
+    loginModal.onOpen();
+  }, [loginModal, registerModal])
+
   const bodyContent = (
     <div className='flex flex-col gap-4'>
       <Heading 
@@ -106,10 +114,10 @@ const RegisterModal = () => {
       >
         <div className='justify-center flex flex-row items-center gap-2'>
             <div>
-          Already have an account?
+              Already have an account?
             </div>
               <div
-              onClick={registerModal.onClose}
+              onClick={onToggle}
               className='
               text-neutral-800
               cursor-pointer

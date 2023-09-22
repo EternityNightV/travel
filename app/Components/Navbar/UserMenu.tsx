@@ -8,6 +8,7 @@ import useLoginModal from '@/app/Hooks/useLoginModal';
 
 import { signOut } from 'next-auth/react';
 import { SafeUser } from '@/app/types';
+import useRentModal from '@/app/Hooks/useRentModal';
 
 
 interface useMenuProps {
@@ -21,13 +22,23 @@ const UserMenu : React.FC<useMenuProps> = ({
     const registerModal = useRegisterModal();
     const loginModal = useLoginModal();
     const [isOpen,setIsOpen] = useState(false);
+    const rentModal = useRentModal();
     const toogleOpen = useCallback(() =>
     {
         setIsOpen((value) => !value);
     },[])
+    const onRent = useCallback(()=>{
+        if(!currentUser) {
+         return loginModal.onOpen();
+        }
+        rentModal.onOpen();
+
+    },[currentUser,loginModal,rentModal])
   return (
     <div className="relative">
-        <div className="
+        <div 
+        onClick={onRent}
+        className="
         flex
         flex-row
         items-center
